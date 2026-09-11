@@ -1,0 +1,44 @@
+# Lokálne nastavenia, údaje účtov a runtime stav
+.local/
+private/
+runtime/
+**/@Resources/State/
+**/@Resources/Settings.local.inc
+**/snapshot.json
+**/events.local.json
+**/accounts.local.json
+*.local.json
+*.local.inc
+
+# Prihlásenia a tajomstvá nikdy nepatria do repozitára
+.env
+.env.*
+!.env.example
+auth.json
+credentials.json
+cookies.txt
+tokens.json
+*.pem
+*.key
+*.pfx
+*.p12
+
+# Logy, dočasné súbory a lokálne balíky
+logs/
+*.log
+*.tmp
+*.bak
+*.lock
+dist/
+artifacts/
+*.rmskin
+
+# Pracovné prostredie
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Neignorujeme všetky JSON ani obrázky:
+# anonymné fixtures a schválené dizajnové podklady majú byť verzované.
