@@ -1,6 +1,6 @@
 # V1 – funkčná špecifikácia
 
-Aktualizované: 2026-09-11. **Stav: potvrdený produktový rozsah, implementácia nezačala.** Číselné dizajnové hodnoty a niektoré interakčné detaily zostávajú návrhom podľa [vizuálneho briefu](DESIGN_BRIEF.md).
+Aktualizované: 2026-09-11. **Stav: potvrdený produktový rozsah; D-015 povoľuje živé pripojenie po prijatí DEMO. Kompletná V1 vrátane detekcie resetov nie je hotová.** Schválený vizuálny smer a implementačné tokeny sú v [vizuálnom briefe](DESIGN_BRIEF.md); dôkazy o DEMO v [checkpointe](DEMO_CHECKPOINT.md).
 
 ## Účel a hranice
 
@@ -24,17 +24,19 @@ Tenší vnútorný prstenec zobrazuje skutočnú 5h kvótu. Claude sa navrhuje s
 
 Chýbajúci weekly údaj je `—`, aj keď 5h údaj existuje. Žiadne priemerovanie rôznych kvót alebo náhrada weekly krátkodobým limitom. 0 % = nič spotrebované, 100 % = vyčerpané. Konverzia `remaining` na `used` sa robí iba po overení jednotiek a významu zdroja.
 
+Overenie 0.56.8 odhalilo neoveriteľnú nulu v Codex JSON a Claude web exporte: upstream môže chýbajúcu hodnotu nahradiť 0. Aktuálny adaptér ju nepotvrdí ako nulovú spotrebu; ukáže neznámy údaj alebo označenú poslednú platnú hodnotu. Je to výslovné obmedzenie zdroja, nie zmena významu 0 % ani tichý fallback. Podrobnosti v LIVE_CHECKPOINT.
+
 ## V1-02: detail po kliknutí
 
 Kliknutie na spodnú hranu/úchytku otvorí detail. Samotný hover nemá otvárať veľký panel. Detail obsahuje identitu kvóty, využitie, odpočet, lokálny dátum/čas resetu, dostupné ďalšie kvóty, čerstvosť a prípadnú neistotu.
 
-Veľkosť klikateľnej plochy musí byť pohodlná aj pri vzdialenom ovládaní. Detail sa nemá samovoľne zatvoriť pri odchode kurzora. Spoločný panel pod dvojicou kruhov je zatiaľ navrhované, nie osobitne uzavreté riešenie.
+Veľkosť klikateľnej plochy musí byť pohodlná aj pri vzdialenom ovládaní. Detail sa nezatvára pri odchode kurzora. Pre DEMO je potvrdený jeden spoločne presúvateľný widget (Codex vľavo, Claude vpravo) a jeden detail: druhá služba prepne obsah, opätovný klik na aktívnu alebo krížik detail zavrie. Pri nedostatku miesta dole sa otvorí nad kruhmi na tom istom monitore; kruhy si zachovajú kotvu.
 
 Čas uchovávaj so známou časovou zónou; na zobrazenie použi lokálnu zónu OS, nie pevné UTC+2. Neznámy reset sa neodhaduje. Odpočet beží lokálne a nikdy sám nevynuluje využitie.
 
 ## V1-03: dátový tok a pravdivosť
 
-Navrhovaná jednoduchá architektúra: povolený export Win-CodexBaru pre dve služby → lokálny adaptér → atomický snapshot → Rainmeter. PowerShell a malý Lua pomocník sú návrh, nie už implementované závislosti. JaxCore nie je povinný.
+Navrhovaná jednoduchá architektúra: povolený export Win-CodexBaru pre dve služby → lokálny adaptér → atomický snapshot → Rainmeter. Živé napojenie používa jednorazový PowerShell adaptér a malý Lua čítač; presný kontrakt a výsledky sú v LIVE_CHECKPOINT.md. JaxCore nie je povinný.
 
 Zber má spoločný cyklus, timeout, ochranu pred prekrytím a spomalenie pri opakovaných chybách. Návrh intervalu je 180 s; musí rešpektovať zistené obmedzenia zdroja. Hover, kreslenie a odpočty nevolajú služby. Bez terminálových okien a bez testovacích AI promptov.
 
@@ -55,6 +57,8 @@ Rozlišuj významný pokles využitia, pravdepodobný predčasný reset, plánov
 Pokles môže byť opravou dát, navýšením kapacity alebo uvoľnením limitného okna. Text musí priznať neistotu. Po uspaní/výpadku rozlišuj čas zistenia a neznámy čas samotnej udalosti. Nesľubuj záchyt každého resetu.
 
 V1 má lokálne oznámenie, voliteľný zvuk a pretrvávajúcu značku neprečítanej udalosti. Presný vizuál je v briefingu. Oznámenie nesmie kradnúť fokus; rovnaká udalosť sa neopakuje po každom zbere alebo reštarte. Minimálny perzistentný stav umožní potvrdenie a deduplikáciu, ale nezablokuje neskoršiu novú udalosť. TEST oznámenie nesmie meniť produkčnú detekciu.
+
+**Rozsah DEMO:** iba syntetická TEST karta, značka a potvrdenie. Žiadny detektor, prahy, zvuk, Windows toast registrácia ani tvrdenie o skutočnom resete. Deduplikácia je v pamäti; načítanie skinu začína bez udalosti. Produkčná perzistencia a detekcia naďalej čakajú na osobitné zadanie.
 
 ## V1-05: vzhľad a konfigurácia
 

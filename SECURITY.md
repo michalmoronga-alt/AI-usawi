@@ -1,6 +1,20 @@
 # Bezpečnosť a súkromie
 
-Projekt je zatiaľ dokumentačný návrh; neexistuje vydaná implementácia, ktorej bezpečnosť by bola overená.
+Projekt obsahuje explicitný offline DEMO a schválené obmedzené živé napojenie. Nejde o kompletnú vydanú V1. Aktuálne výsledky sú v `docs/LIVE_CHECKPOINT.md`; `DEMO_CHECKPOINT.md` je historický záznam pred živým krokom.
+
+## LIVE
+
+Adaptér spúšťa iba dve konkrétne usage požiadavky cez overený Win-CodexBar 0.56.8. Nepoužíva režim all/auto/CLI ani vlastný auth systém. Číta iba stdout svojho procesu; auth súbory nekopíruje. Prihlásenie opravuje používateľ. Win-CodexBar môže pri bežnom exporte vykonávať vlastné sieťové požiadavky, zápisy a obnovu existujúceho prihlásenia.
+
+Surový JSON a stderr sa neukladajú ani nevypisujú. Snapshot obsahuje iba overené číselné hodnoty, enumy a prípadný hash identity so súkromnou lokálnou soľou. Chybové texty a názvy kvót sa vyberajú z vlastných konštánt, nie z vykonateľného textu zdroja. Lua číta snapshot ako dáta, nikdy ako kód/include. Falošná nula a čerstvosť sa neposudzujú len podľa času zápisu súboru.
+
+Vlastný `State/` obsahuje pripojenie, snapshot, zámok a lokálnu diagnostiku; nepatrí do Git ani distribúcie. Aj snímka živého widgetu môže odhaliť súkromné usage. CLI je pripnutý hashom; zmena vyžaduje nové overenie. Exkluzívny zámok bráni súbehu, timeout a Windows Job Object ukončujú vlastné procesy zberu. Globálne nastavenia Windows, Rainmeter, JaxCore a Win-CodexBar sa nemenia.
+
+## Offline DEMO
+
+V režime DEMO runtime používa iba verzované syntetické Lua fixtures pre dve služby. Nespúšťa zber ani sieťové požiadavky. Aj pri ručnom spustení adaptéra jeho kontrola režimu zber zastaví. DEMO označenie zostáva viditeľné aj so zavretým detailom. Neznámy scenár alebo neplatné percento nemajú fallback na platnú nulu. LIVE nevie cez DEMO ovládanie prepnúť údaje na fixtures.
+
+QA záznamy v nasadenej kópii `@Resources/State/` sú ignorované Gitom; obsah zodpovedá zvolenému režimu a v LIVE je súkromný. TEST udalosti existujú len v DEMO a deduplikujú sa v pamäti; reštart začína bez udalosti. Nasadzovanie kontroluje vlastníctvo a hashe. Neznáme/lokálne upravené súbory vyžadujú kontrolu a zálohu, nie automatický prepis. Pomocný CLI proces Rainmetera má päťsekundový timeout, ktorý nikdy neukončuje hlavný desktopový proces.
 
 ## Verejné hlásenia
 

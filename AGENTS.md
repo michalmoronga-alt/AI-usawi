@@ -2,9 +2,11 @@
 
 ## Aktuálna hranica
 
-Projekt je v návrhovej fáze. Posledné povolenie zahŕňa **dokumentáciu a základné súbory tohto repozitára**, nie implementáciu ani živé volania účtov.
+Najnovšie výslovné zadanie majiteľa (2026-09-11, po prijatí DEMO) povoľuje živé napojenie Codex a Claude cez existujúci Win-CodexBar, potrebný adaptér, izolované nasadenie a testy. Predchádzajúci zákaz spustenia exportu sa pre tento krok ruší. DEMO zostáva výslovný offline režim, nikdy fallback.
 
-Používateľ odkladá lokálny zber, aby nezasahoval do aktívnej práce v Codexe. Bez nového výslovného súhlasu nespúšťaj Win-CodexBar CLI, refresh prihlásenia, prihlasovanie, prepínanie účtov, inštaláciu ani načítanie skinu. Povolenie na zápis dokumentácie nie je povolenie na tieto akcie.
+Povolené sú cielené usage exporty pre dve služby a bežné vedľajšie zápisy zdroja. Bez vlastného auth systému, automatizovaného nového prihlásenia, testovacích AI promptov, CLI sondy Claude /usage, zberu all alebo zmien Win-CodexBaru. Claude momentálne hlási chybu prihlásenia aj v aplikácii; majiteľ to potvrdil. Obnovu prihlásenia robí majiteľ.
+
+Nasadzovanie iba do existujúceho vlastného priečinka skinu, bez globálneho Refresh All či reštartu Rainmetera. Lokálny commit vlastných overených zmien áno; push, PR a merge nie. Detektor resetov a upozornenia čakajú na osobitné rozhodnutie.
 
 ## Čítanie a priorita
 

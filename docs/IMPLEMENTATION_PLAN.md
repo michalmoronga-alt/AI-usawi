@@ -1,6 +1,6 @@
 # Postup implementácie a handoff
 
-Stav k 2026-09-11: **dokumentácia, bez implementácie a bez nového živého overenia**. Tento plán nie je príkaz na okamžité spustenie všetkých krokov.
+Stav k 2026-09-11: **D-015 povoľuje živé napojenie po prijatí DEMO.** Codex je napojený, Claude blokuje prihlásenie potvrdené aj majiteľom. Implementované sú zber/normalizácia/izolované nasadenie a testy, bez detektora resetov a upozornení. Aktuálne dôkazy: [LIVE_CHECKPOINT.md](LIVE_CHECKPOINT.md). Historický krok B: [DEMO_CHECKPOINT.md](DEMO_CHECKPOINT.md). Zvyšok roadmap nie je automaticky povolený.
 
 ## Predchádzajúci technický prieskum
 
@@ -8,17 +8,21 @@ Majiteľ poskytol report lokálneho agenta. Podľa neho sú k dispozícii Rainme
 
 Report mapoval weekly v skúmanej verzii na `usage.secondary.used_percent` pri overenom týždennom okne. Pri Claude uvádzal pôvod `weekly_all` alebo `seven_day.utilization`. Konkrétne živé hodnoty a zhoda účtov neboli úplne overené. Toto nie je univerzálny kontrakt CLI; implementácia musí mapovanie znova doložiť a nesmie sa riadiť iba názvom `secondary`.
 
-Podstatné zistenia z reportu: export môže vykonať nový zber, zapisovať interný stav a štandardne obnovovať existujúce prihlásenie. Čas nového exportu nemusí dokazovať čerstvosť prenesenej weekly hodnoty. Práve preto sa teraz na živé overenie čaká.
+Podstatné zistenia z reportu boli znovu overené pre 0.56.8: export vykonáva zber a môže zapisovať interný stav či obnovovať existujúce prihlásenie. Nový export nedokazuje čerstvosť prenesenej Codex weekly. Aktuálne obmedzenia vrátane neoveriteľnej nuly sú v LIVE_CHECKPOINT.
 
 ## A: uzavrieť víziu
 
-Doplniť rozhodnutia o spoločnom paneli, rozložení, palete a správaní na okraji monitora. Vytvoriť vizuálnu predlohu stavov z `DESIGN_BRIEF.md`. Bez účtov, ich exportu a lokálneho nasadenia. Výstupom má byť schválená predloha, nie iba náladový obrázok.
+Uzavreté pre DEMO v PROMPT 2: schválená predloha, dve služby, spoločný klikateľný detail a fialový weekly/jantárový 5h. Implementačné tokeny a správanie okrajov sa zaznamenávajú v `DESIGN_BRIEF.md`.
 
-## B: DEMO skin – až po povolení
+## B: DEMO skin – povolené PROMPT 2
 
 Implementovať natívne Rainmeter zobrazenie a interakcie na syntetických fixtures. Viditeľné označenie DEMO; žiadny tichý fallback z live dát na ukážku. Nepotrebovať Win-CodexBar ani auth súbory. Otestovať dva prstence, skrytý Codex 5h, detail, mierku a chyby. Nezasahovať do iných skinov alebo startupu.
 
-## C: kontrolované živé overenie – osobitný súhlas
+Konkrétne rozdelenie: `skin/DEMO.ini` vykresľuje, `Model.lua` normalizuje a počíta geometriu/časy, `Fixtures.lua` vytvára ručné scenáre s pevnou časovou kotvou, `Runtime.lua` riadi kliknutia a TEST kartu. Runtime používa len vstavané možnosti Rainmetera a Lua 5.1. Žiadny proces na periodickú aktualizáciu.
+
+`tools/Deploy-Demo.ps1` kopíruje do skutočného SkinPath samostatnú kópiu a kontroluje hashe; `Remove-Demo.ps1` odmietne neznáme/upravené súbory. `Test-Demo.ps1` testuje zdroj a nasadenie v izolovanom lokálnom priečinku. Lua suite sa vykoná priamo v Rainmeteri cez `RunTests()`. Ručné natívne testy sa nesmú zameniť za tieto dátové assertions.
+
+## C: kontrolované živé overenie – povolené D-015
 
 Najprv overiť presnú verziu, help a cielené príkazy pre Codex a Claude; žiadny režim `all`. Pred spustením vysvetliť bežné zápisy a refresh existujúceho prihlásenia. Potom porovnať správny účet/kvótu s aplikáciou a zaznamenať iba bezpečné schéma a obmedzenia. Chýbajúce údaje alebo neistota majú byť výsledkom overenia, nie dôvodom na vymyslený mapping.
 
@@ -50,6 +54,6 @@ Bez prístupu k natívnej ploche označiť vizuálny test NOT TESTED, nie PASS. 
 
 ## Balík pre agenta
 
-Aktuálne `V1_SPEC.md`, `DECISIONS.md`, `DESIGN_BRIEF.md`, schválené predlohy (ešte chýbajú), anonymné fixtures (ešte chýbajú), výsledky povoleného živého overenia (zatiaľ neúplné) a jeden konkrétny task s hranicou STOP. Nie súbor starých navzájom rozporných promptov.
+Aktuálne `V1_SPEC.md`, `DECISIONS.md`, `DESIGN_BRIEF.md`, `LIVE_CHECKPOINT.md` a historický `DEMO_CHECKPOINT.md`. Do verejného repa patria iba anonymné fixtures a DEMO snímky. Po oprave existujúceho Claude prihlásenia používateľom doplniť jeho živé overenie a potvrdiť zhodu účtov. Detektor resetov a jeho prahy zostávajú samostatné rozhodnutie.
 
 Po každom schválenom kroku: PASS/PARTIAL/FAIL, zmenené súbory, vykonané testy, známe obmedzenia a ďalšie rozhodnutie. Mobil, Reset Spy a editor tém zostávajú odložené.
