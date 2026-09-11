@@ -24,9 +24,13 @@ Presety, svetlá téma, zmena hrúbok/rozostupov a import/export témy sú ďal�
 
 **Zdroj: výslovný nápad majiteľa. Stav: prieskum, mimo V1.**
 
-Navrhnutý zdroj je účet X `@thsottiaux`, ktorý majiteľ považuje za dôveryhodný pri oznamovaní resetov. Cieľom je upozorniť na relevantné budúce zmeny, nie nahrádzať meranie účtu. Podrobný návrh, hranice dôvery a varianty získania dát sú v [RESET_SPY.md](RESET_SPY.md).
+Pôvodným podnetom bol účet X `@thsottiaux`, ktorý majiteľ považuje za dôveryhodný pri oznamovaní resetov. Následne dodal [AI Radar](https://ai.patrikwagner.cz/signaly?typ=resety) a [Codex Reset Monitor](https://codexreset.org/) ako kandidátov na hotový externý zdroj. Cieľom je upozorniť na relevantné zmeny, nie nahrádzať meranie účtu.
 
-Prvý rozumný experiment môže byť ručne overený zoznam stručných oznámení s odkazmi. Automatické čítanie X až po overení prístupu, prevádzkových podmienok, ceny a prínosu. Žiadny zber X vo V1.
+**Odporúčaný ďalší prieskum:** najprv preveriť existujúci dohodnutý RSS/JSON výstup; až keď hotové zdroje nevyhovujú, zvažovať ručný zoznam alebo vlastný zber X. Verejný obsah bol prečítaný, ale stabilný dátový kontrakt, podmienky odberu a bezplatné používanie vo verejnom widgete zatiaľ potvrdené nie sú. Žiadny odber nie je implementovaný ani spustený.
+
+Rozlišovať oznámenie, vykonanie, resetový kredit a odhad. Predikcie pravdepodobnosti ďalšieho resetu nepreberať do prvého experimentu. Rovnakú správu cez dva agregátory nepovažovať za dve nezávislé potvrdenia ani dva resety; plán a následné potvrdenie môžu aktualizovať jednu udalosť. Výpadok externého zdroja nesmie ovplyvniť kruhy a lokálnu detekciu.
+
+Podrobné pozorovania, obmedzenia overenia, hranice dôvery a varianty získania dát sú v [RESET_SPY.md](RESET_SPY.md). Primárny/záložný zdroj nie je vybraný. Žiadny zber X ani externých resetových feedov vo V1.
 
 ## B-03: mobilné doručovanie udalostí
 
