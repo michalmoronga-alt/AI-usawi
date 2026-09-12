@@ -2,7 +2,7 @@
 
 **Natívny Rainmeter widget: weekly a voliteľná 5h kvóta Codex a Claude, explicitný LIVE alebo offline DEMO režim.**
 
-> **Stav: PARTIAL — živý Codex funguje, Claude blokuje existujúce prihlásenie aj vo Win-CodexBare.** Offline DEMO zostal zachovaný. Aktuálne výsledky, mapovanie a obmedzenia sú v [LIVE_CHECKPOINT.md](docs/LIVE_CHECKPOINT.md); pôvodný DEMO krok v [DEMO_CHECKPOINT.md](docs/DEMO_CHECKPOINT.md). Kompletná V1 s detekciou resetov ešte nie je hotová.
+> **Živé napojenie Codex aj Claude je overené.** Offline DEMO zostal zachovaný. Aktuálne výsledky, mapovanie a obmedzenia sú v [LIVE_CHECKPOINT.md](docs/LIVE_CHECKPOINT.md); pôvodný DEMO krok v [DEMO_CHECKPOINT.md](docs/DEMO_CHECKPOINT.md). Kompletná V1 s detekciou resetov ešte nie je hotová.
 
 Vonkajší fialový prstenec a veľké číslo vždy ukazujú **spotrebované weekly percento**. Jantárový vnútorný prstenec sa riadi stavom 5h kvóty. Chýbajúci weekly údaj je „—“. Nula, ktorú upstream nedokáže odlíšiť od chýbajúceho údaja, sa nepotvrdzuje ako skutočná nulová spotreba. Reset odpočítava lokálne a nikdy sám nevynuluje percentá.
 
@@ -19,7 +19,7 @@ Na overenom PC je aktuálne načítaný režim **LIVE**. Používa existujúci W
 
 Prvé LIVE nasadenie vyžaduje `-CliPath` a `-VerifiedCliSha256` po kontrole konkrétnej binárky a lokálneho helpu. Nepoužívaj vymyslenú cestu/hash. Zmenená binárka sa odmietne, kým sa znova neoverí kontrakt. `-ClaudeSource oauth` je predvolený; `web` má iné požiadavky na existujúce prihlásenie a vyžaduje overenie. Automatický ani CLI fallback nie je zapnutý.
 
-Nasadený priečinok **NOXUN AI Usage DEMO / DEMO.ini** má historický názov, aby sa nemuseli obnovovať ostatné skiny. Viditeľný režim je vždy jasný. `@Resources/State/connection.json`, snapshot a zámok zostávajú iba lokálne. Do repa sa nekopírujú prihlasovacie údaje. Pre Claude musí fungovať rovnaký OAuth zdroj, ktorý používa CLI; oprava iba webových cookies aplikácie nemusí opraviť OAuth. Po oprave používateľom sa zber zopakuje podľa aktuálneho intervalu/backoffu.
+Nasadený priečinok **NOXUN AI Usage DEMO / DEMO.ini** má historický názov, aby sa nemuseli obnovovať ostatné skiny. LIVE má čistú plochu, DEMO zostáva vždy označené. `@Resources/State/connection.json`, snapshot a zámok zostávajú iba lokálne. Do repa sa nekopírujú prihlasovacie údaje. Pre Claude musí fungovať rovnaký OAuth zdroj, ktorý používa CLI; oprava iba webových cookies aplikácie nemusí opraviť OAuth. Po oprave používateľom sa zber zopakuje podľa aktuálneho intervalu/backoffu.
 
 ## Spustenie DEMO
 
@@ -36,13 +36,15 @@ Nasadenie číta SkinPath z existujúcej konfigurácie Rainmetera a vytvorí iba
 
 **Úplne nový priečinok:** Rainmeter 4.5.26 môže vyžadovať obnovenie zoznamu skinov. Skript zámerne nespúšťa „Refresh All“, pretože obnovuje aj ostatné skiny. Po vlastnom rozhodnutí použi túto funkciu v Rainmeteri, potom načítaj **NOXUN AI Usage DEMO / DEMO.ini**. Ďalšie aktualizácie používajú iba refresh konkrétneho DEMO. Neznámy existujúci obsah a lokálne úpravy sa neprepisujú; najprv ich skontroluj a zálohuj.
 
+Aktuálne vyčistenie plochy a overenie oboch služieb: [CLEANUP_CHECKPOINT.md](docs/CLEANUP_CHECKPOINT.md).
+
 ## Ovládanie
 
-- **LIVE/DEMO · presuň** hore: presunie oba kruhy spolu.
+- **Prázdna oblasť nad kruhmi:** presunie oba kruhy spolu. LIVE nemá pomocný nápis.
 - **Kruh alebo spodná úchytka:** otvorí detail; druhá služba prepne obsah, aktívna ho zavrie. Krížik tiež zatvára. Odchod kurzora nič nezatvára.
-- **‹ / ›:** predchádzajúci/nasledujúci syntetický scenár. Scenáre sa samy nemenia.
-- **100 % / 150 %** hore: prepne mierku.
-- **TEST:** nová označená udalosť pre vybranú službu (inak Codex). **Potvrdiť** odstráni kartu a neprečítanú značku. Karta nikdy neznamená detekciu skutočného resetu.
+- **Iba DEMO — ‹ / ›:** predchádzajúci/nasledujúci syntetický scenár. Scenáre sa samy nemenia.
+- **Pravé tlačidlo → Mierka 100 % / 150 %:** zmení veľkosť. Tlačidlo hore zostáva iba v DEMO.
+- **Iba DEMO — TEST:** nová označená udalosť pre vybranú službu (inak Codex). **Potvrdiť** odstráni kartu a neprečítanú značku. Karta nikdy neznamená detekciu skutočného resetu.
 
 Je dostupných 14 scenárov: bežný stav 65/42 %, dostupný Codex 5h, nulový Codex 5h, geometria 0/25/50/100 %, chýbajúci weekly pri existujúcom 5h, staré hodnoty/chyba služby, neistá dostupnosť 5h, neznámy/uplynutý reset, reset o 5 sekúnd, TEST udalosť a neplatný vstup.
 
@@ -82,4 +84,4 @@ Repo zostane zachované. Odstránenie počká na prípadný prebiehajúci zber a
 
 Skutočná detekcia resetov, mobilné oznámenia, Reset Spy a editor tém čakajú na samostatné zadanie. Toto nie je všeobecný provider framework.
 
-AI-usawi je nezávislý komunitný projekt, nie oficiálny produkt OpenAI, Anthropic alebo Rainmeter. Externý dátový zdroj je [Win-CodexBar](https://github.com/nesszer/Win-CodexBar); jeho kód ani binárky sa nedistribuujú. Licenciu zatiaľ majiteľ nevybral. Repo je verejné, ale tento krok nepovoľuje push ani vydanie.
+AI-usawi je nezávislý komunitný projekt, nie oficiálny produkt OpenAI, Anthropic alebo Rainmeter. Externý dátový zdroj je [Win-CodexBar](https://github.com/nesszer/Win-CodexBar); jeho kód ani binárky sa nedistribuujú. Licenciu zatiaľ majiteľ nevybral. Majiteľ povolil push vyčistenej verzie na pracovnú vetvu; merge a vydanie zostávajú samostatné kroky.

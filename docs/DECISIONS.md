@@ -26,6 +26,8 @@ Záznam zo zakladania dokumentácie: 2026-09-11. Zdrojom produktových požiadav
 
 ## Návrhy stále otvorené
 
+Potvrdené doplnenie **D-017 (2026-09-12):** majiteľ požiadal o vyčistenie plochy a push na GitHub. Výslovne ponechal DEMO režim a testovacie scenáre v projekte. LIVE skrýva pomocné nápisy, podtituly kruhov, tlačidlo mierky a technický podnadpis detailu; zachováva mená služieb, percentá, stavy a detaily limitov. Mierka je v kontextovom menu, DEMO položky z neho odstránené. Povolený push pracovnej vetvy, bez PR alebo merge. D-016 sa mení iba v zobrazovaní nápisu LIVE; DEMO zostáva vždy označené.
+
 | ID | Návrh | Stav |
 | --- | --- | --- |
 | P-001 | Jeden spoločný presúvateľný widget a spoločný panel detailov. | Uzavreté pre DEMO rozhodnutím D-012. |

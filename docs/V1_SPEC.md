@@ -28,6 +28,8 @@ Overenie 0.56.8 odhalilo neoveriteľnú nulu v Codex JSON a Claude web exporte: 
 
 ## V1-02: detail po kliknutí
 
+D-017 (2026-09-12): čistá LIVE plocha obsahuje kruhy, percentá, názvy služieb, stavové značky a šípky detailu. Pomocné nápisy a DEMO menu sú odstránené. Prázdna oblasť nad kruhmi slúži na presúvanie; mierka je v kontextovom menu. Detail zachováva význam kvót, resety, čerstvosť a chyby. Testovací DEMO režim zostáva výslovný a označený.
+
 Kliknutie na spodnú hranu/úchytku otvorí detail. Samotný hover nemá otvárať veľký panel. Detail obsahuje identitu kvóty, využitie, odpočet, lokálny dátum/čas resetu, dostupné ďalšie kvóty, čerstvosť a prípadnú neistotu.
 
 Veľkosť klikateľnej plochy musí byť pohodlná aj pri vzdialenom ovládaní. Detail sa nezatvára pri odchode kurzora. Pre DEMO je potvrdený jeden spoločne presúvateľný widget (Codex vľavo, Claude vpravo) a jeden detail: druhá služba prepne obsah, opätovný klik na aktívnu alebo krížik detail zavrie. Pri nedostatku miesta dole sa otvorí nad kruhmi na tom istom monitore; kruhy si zachovajú kotvu.

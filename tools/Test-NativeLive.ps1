@@ -20,6 +20,10 @@ if($original.mode -ne 'LIVE'){throw 'Load LIVE before this read-only data test.'
 try {
   & $sender -Action Lua -LuaCommand 'Close()'
   $s=Inspect;$snapshot=Read-Snapshot (Join-Path $stateDir 'snapshot.txt')
+  Check ($s['ui.Drag.empty'] -eq 'true') 'LIVE drag area has no helper label'
+  foreach($meter in @('ScaleButton','Scenario','Previous','Next','TestEvent','codexSubtitle','claudeSubtitle')){
+    Check ($s['ui.'+$meter+'.hidden'] -eq '1') ('LIVE hides helper meter '+$meter)
+  }
   Check ($snapshot['codex.status'] -eq 'ok') 'Actual Codex export succeeded'
   Check ($s['codex.weekly.used'] -eq $snapshot['codex.weekly.used']) 'Native weekly equals exported weekly snapshot'
   Check ($s['codex.weekly.reset'] -eq $snapshot['codex.weekly.reset_at']) 'Native reset equals zoned export reset'
@@ -29,6 +33,11 @@ try {
     Check ($s['claude.weekly.used'] -eq 'unknown' -or $s['claude.weekly.quality'] -eq 'error') 'Actual Claude authentication error never fabricates zero'
   }
   $before=$s['codex.weekly.used'];$announcements=$s.announcements
+  if($snapshot['claude.status'] -eq 'ok'){
+    Check ($s['claude.weekly.used'] -eq $snapshot['claude.weekly.used']) 'Native Claude weekly equals successful export'
+    Check ($s['claude.weekly.reset'] -eq $snapshot['claude.weekly.reset_at']) 'Native Claude reset equals successful export'
+    Check ($s['claude.session.availability'] -eq $snapshot['claude.session.availability']) 'Native Claude session matches availability'
+  }
   & $sender -Action Lua -LuaCommand "LoadScenario('zero')"
   & $sender -Action Lua -LuaCommand 'TestEvent()'
   $s=Inspect
@@ -41,7 +50,8 @@ try {
     $s=Inspect
     Check ($s.active -eq 'codex' -and [double]$s['window.w'] -eq 376*$scale) ('LIVE detail at scale '+$scale)
     & $sender -Action Lua -LuaCommand "Toggle('claude')"
-    $s=Inspect;Check ($s.active -eq 'claude') ('LIVE error detail switch at scale '+$scale)
+    $s=Inspect;Check ($s.active -eq 'claude') ('LIVE Claude detail switch at scale '+$scale)
+    Check ($s['ui.DetailSubheading.hidden'] -eq '1') ('LIVE detail hides technical mode label at scale '+$scale)
     & $sender -Action Lua -LuaCommand 'Close()'
     $s=Inspect;Check ([double]$s['window.h'] -eq 236*$scale) ('LIVE close shrinks window at scale '+$scale)
   }

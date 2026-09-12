@@ -122,8 +122,9 @@ local function render()
   lastLayout={above=layout.above,offset=offset,width=w,height=layout.height,anchor=anchor,work_top=workTop,work_height=workHeight,ratio=layout.ratio}
   option('Bounds','W',w);option('Bounds','H',layout.height)
   local y=offset
-  text('Drag',mode..'  ·  presuň',22*s,y+4*s,190*s,25*s,8.5*s,pale)
+  text('Drag',mode=='DEMO' and 'DEMO  ·  presuň' or '',22*s,y+4*s,190*s,25*s,8.5*s,pale)
   text('ScaleButton',string.format('%.0f %%',scale*100),w-72*s,y+2*s,50*s,28*s,9*s,pale)
+  show('ScaleButton',mode=='DEMO')
   for i,id in ipairs({'codex','claude'}) do
     local p=data[id];local x=24*s+(i-1)*(d+gap);local cy=y+34*s
     local stale=p.weekly.quality~='fresh'
@@ -136,6 +137,7 @@ local function render()
     text(id..'Percent',M.percent(p.weekly),x+d/2,cy+d*0.28,d-35*s,42*s,25*s,stale and pale or white)
     text(id..'Name',id:upper(),x+d/2,cy+d*0.58,d-30*s,20*s,8.7*s,white)
     text(id..'Subtitle','týždenný limit',x+d/2,cy+d*0.73,d-30*s,20*s,7.7*s,pale)
+    show(id..'Subtitle',mode=='DEMO')
     text(id..'Handle',active==id and '⌃' or '⌄',x+d/2,cy+d+1*s,90*s,28*s,16*s,pale)
     local unread=events.active and events.active.provider==id
     text(id..'Badge',unread and '●' or '!',x+d-3*s,cy+10*s,20*s,24*s,11*s,unread and purple or amber)
@@ -149,7 +151,7 @@ local function render()
   text('TestEvent','TEST',w-49*s,toolbar,44*s,28*s,8*s,purple)
   else
     for _,meter in ipairs({'Previous','Next','TestEvent'}) do show(meter,false);option(meter,'X',0);option(meter,'Y',0) end
-    text('Scenario','Win-CodexBar · automatická obnova',24*s,toolbar+2*s,w-48*s,25*s,8.2*s,pale)
+    show('Scenario',false);option('Scenario','X',0);option('Scenario','Y',0)
   end
   if detailUnits>0 and layout.ratio>0 then
     local ds=s*layout.ratio;local py=layout.detail_y+5*ds
@@ -159,6 +161,7 @@ local function render()
     if selected then
       text('DetailHeading',active:upper(),18*s,py+14*ds,w-74*s,24*ds,13*ds,white)
       text('DetailSubheading',mode=='DEMO' and 'DEMO · syntetické údaje' or ('LIVE · '..(selected.source or 'zdroj čaká')),18*s,py+40*ds,w-60*s,20*ds,8*ds,pale)
+      show('DetailSubheading',mode=='DEMO')
       text('DetailClose','×',w-45*s,py+8*ds,32*s,34*ds,18*ds,pale)
       detailBlock('DetailWeekly',selected.weekly,'Týždenný limit · všetky modely',18*s,py+69*ds,w-36*s,ds,purple,now)
       contentY=py+169*ds
@@ -282,6 +285,10 @@ function CaptureState()
   if not file then return end
   local function put(k,v) file:write(k..'='..tostring(v)..'\n') end
   put('mode',mode);put('scenario',mode=='DEMO' and F.order[scenario] or 'live');put('active',active or 'none');put('scale',scale)
+  for _,meter in ipairs({'Drag','ScaleButton','Scenario','Previous','Next','TestEvent','codexSubtitle','claudeSubtitle','DetailSubheading'}) do
+    put('ui.'..meter..'.hidden',opts[meter..':Hidden'] or 'unknown')
+  end
+  put('ui.Drag.empty',opts['Drag:Text']=='')
   put('window.x',SKIN:GetX());put('window.y',SKIN:GetY());put('window.w',SKIN:GetW());put('window.h',SKIN:GetH())
   put('anchor',data.anchor);put('announcements',events.announcements);put('event_unread',events.active~=nil)
   for k,v in pairs(lastLayout) do put('layout.'..k,v) end

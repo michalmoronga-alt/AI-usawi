@@ -4,9 +4,9 @@
 
 Najnovšie výslovné zadanie majiteľa (2026-09-11, po prijatí DEMO) povoľuje živé napojenie Codex a Claude cez existujúci Win-CodexBar, potrebný adaptér, izolované nasadenie a testy. Predchádzajúci zákaz spustenia exportu sa pre tento krok ruší. DEMO zostáva výslovný offline režim, nikdy fallback.
 
-Povolené sú cielené usage exporty pre dve služby a bežné vedľajšie zápisy zdroja. Bez vlastného auth systému, automatizovaného nového prihlásenia, testovacích AI promptov, CLI sondy Claude /usage, zberu all alebo zmien Win-CodexBaru. Claude momentálne hlási chybu prihlásenia aj v aplikácii; majiteľ to potvrdil. Obnovu prihlásenia robí majiteľ.
+Povolené sú cielené usage exporty pre dve služby a bežné vedľajšie zápisy zdroja. Bez vlastného auth systému, automatizovaného nového prihlásenia, testovacích AI promptov, CLI sondy Claude /usage, zberu all alebo zmien Win-CodexBaru. Obe služby po manuálnej obnove prihlásenia úspešne poskytli údaje. Obnovu prihlásenia robí majiteľ.
 
-Nasadzovanie iba do existujúceho vlastného priečinka skinu, bez globálneho Refresh All či reštartu Rainmetera. Lokálny commit vlastných overených zmien áno; push, PR a merge nie. Detektor resetov a upozornenia čakajú na osobitné rozhodnutie.
+Nasadzovanie iba do existujúceho vlastného priečinka skinu, bez globálneho Refresh All či reštartu Rainmetera. D-017 povoľuje vyčistenie LIVE plochy, zachovanie testov a push vlastných overených zmien na pracovnú vetvu. PR a merge nie. Detektor resetov a upozornenia čakajú na osobitné rozhodnutie.
 
 ## Čítanie a priorita
 

@@ -1,5 +1,7 @@
 # LIVE checkpoint — 2026-09-11
 
+**Aktualizácia 2026-09-12:** používateľ obnovil prihlásenia cez oficiálne CLI. Následný zber aj natívne hodnoty boli úspešné pre Codex a Claude. Pôvodné auth blokery nižšie sú historické. Aktuálne vyčistenie plochy a výsledky sú v [CLEANUP_CHECKPOINT.md](CLEANUP_CHECKPOINT.md). Neznámy vek Codex weekly a ostatné obmedzenia zdroja zostávajú.
+
 **PARTIAL: Codex živo funguje v Rainmeteri. Claude blokuje existujúce prihlásenie; majiteľ potvrdil rovnakú chybu v aplikácii Win-CodexBar.** DEMO zostáva funkčný. Detektor resetov a upozornenia nie sú implementované.
 
 ## OVERENÉ
